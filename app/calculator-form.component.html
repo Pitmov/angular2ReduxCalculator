@@ -1,0 +1,33 @@
+<div class="container">
+  <form>
+    <div class="form-group">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Start typing your operation here"
+        [(ngModel)]="currentInput"
+        ngControl="calculateField"
+        #element
+        (keypress)="validate($event)"
+        (keyup.enter)="setOperation('calculate')"
+        pattern="[0-9]+((?:[0-9]+)\.[0-9]+)?"
+      />
+      <div [hidden]="!(formState | async)?.invalidMessage"
+           class="alert alert-danger">
+        {{(formState | async)?.invalidMessage}}
+      </div>
+    </div>
+    <div class="calculation-info text-left col-md-8">
+      <div [hidden]="!(formState | async)?.formattedResult" class="text-left result-data">Result: <span class="text-bold">{{(formState | async).formattedResult}}</span></div>
+      <div class="text-left history-info" [hidden]="!(formState | async)?.operationHistory"><span>History: {{(formState | async).operationHistory}}</span></div>
+    </div>
+    <div class="buttons text-right col-md-4">
+      <button type="button" class="btn btn-default btn-primary" (click)="setOperation('calculate'); element.focus();">=</button>
+      <button type="button" class="btn btn-default" (click)="setOperation('plus'); element.focus();">+</button>
+      <button type="button" class="btn btn-default" (click)="setOperation('minus'); element.focus();">-</button>
+      <button type="button" class="btn btn-default" (click)="setOperation('multiply'); element.focus();">*</button>
+      <button type="button" class="btn btn-default" (click)="setOperation('divide'); element.focus();">/</button>
+      <button type="button" class="btn btn-default" (click)="setOperation('reset')">Reset</button>
+    </div>
+  </form>
+</div>
